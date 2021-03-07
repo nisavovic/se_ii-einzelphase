@@ -27,8 +27,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // view is not used here
-    public void sendButtonClicked(View v) {
+    public void sendButtonClicked(View v) throws InterruptedException {
         String matrikelnummer = this.userInput.getText().toString();
-        this.serverResponse.setText("button has been clicked! You entered: " + matrikelnummer);
+
+        Thread networkThread = new Server(matrikelnummer);
+        // thread needed so the app does not crash when sending message to the server
+        networkThread.start();
+
+        // wait for the thread to complete so we can read the result
+        networkThread.join();
+
+        // set the response from the server in the user interface; need to typecast because we initialized
+        // it as a thread but need to access a "Server"-method
+        this.serverResponse.setText(((Server)networkThread).getResult());
     }
 }
