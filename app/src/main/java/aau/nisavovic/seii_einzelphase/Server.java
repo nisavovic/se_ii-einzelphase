@@ -31,7 +31,7 @@ public class Server extends Thread {
             BufferedReader answerFromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             // actually send the Matrikelnummer to the server
-            channelToServer.writeBytes(this.matrikelnummer);
+            channelToServer.writeBytes(this.matrikelnummer + '\n');
 
             // read the answer from the server and save it in our result variable
             this.result = answerFromServer.readLine();
